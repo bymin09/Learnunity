@@ -43,12 +43,12 @@ public class Enemy : MonoBehaviour
         animator.SetTrigger("isAttack");
         yield return new WaitForSeconds(0.5f);
         if(Vector3.Distance(this.transform.position, player.position) < navMeshAgent.stoppingDistance + 0.1f){
-            StartCoroutine("isAttack");
+            StartCoroutine("Attack");
+            //Attack 실행오류 고치기
         }
         else
         {
             navMeshAgent.isStopped = false;
-            animator.WriteDefaultValues();
         }
     }
 }
