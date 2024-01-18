@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     public float speed = 2.0f;
     Animator animator;
     bool isWalk = false;
+    public bool isAttackCheck = false;
+    int hp = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +24,7 @@ public class Player : MonoBehaviour
     {
         Walk();
         Attack();
+        Rotation();
     }
 
     void Walk()
@@ -42,7 +45,7 @@ public class Player : MonoBehaviour
             characterController.Move(-this.transform.right * Time.deltaTime * speed);
             isWalk = true;
         }
-        else if(Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))
         {
             characterController.Move(this.transform.right * Time.deltaTime * speed);
             isWalk = true;
@@ -56,7 +59,7 @@ public class Player : MonoBehaviour
         {
             animator.SetBool("isWalk", false);
         }
-        
+
     }
 
     void Attack()
@@ -65,5 +68,40 @@ public class Player : MonoBehaviour
         {
             animator.SetTrigger("isAttack");
         }
+    }
+
+    void Rotation()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        Plane plane = new Plane(Vector3.up, Vector3.zero);
+
+        float rayLength;
+        if (plane.Raycast(ray, out rayLength))
+        {
+            Vector3 mousePoint = ray.GetPoint(rayLength);
+
+            this.transform.LookAt(new Vector3(mousePoint.x, this.transform.position.y, mousePoint.z));
+        }
+    }
+
+    public void SetHp(int damage)
+    {
+        if (Manager.Instance.isLive)
+        {
+            hp -= damage;
+            if(hp <= 0)
+            {
+                hp = 0;
+                animator.SetTrigger("Death");
+                Manager. Instance.isLive = false;
+                Invoke("Game Over", 1.0f);
+            }
+        }
+    }
+
+    public void GameOver()
+    {
+        Manager.Instance.PauseGame();
     }
 }

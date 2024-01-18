@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     NavMeshAgent navMeshAgent;
     Transform player;
 
+    bool isWalk = false;
+
     void Start()
     {
         navMeshAgent = this.GetComponent<NavMeshAgent>();
@@ -20,15 +22,19 @@ public class Enemy : MonoBehaviour
     
     void Update()
     {
+        Walk();
+
         if(!navMeshAgent.isStopped)
         {
             if (Vector3.Distance(this.transform.position, player.position) < navMeshAgent.stoppingDistance + 0.1f)
             {
+                isWalk = false;
                 navMeshAgent.isStopped = true;
                 StartCoroutine("Attack");
             }
             else
             {
+                isWalk = true;
                 navMeshAgent.isStopped = false;
                 navMeshAgent.destination = player.position;
             }
@@ -44,11 +50,22 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if(Vector3.Distance(this.transform.position, player.position) < navMeshAgent.stoppingDistance + 0.1f){
             StartCoroutine("Attack");
-            //Attack 실행오류 고치기
         }
         else
         {
             navMeshAgent.isStopped = false;
+        }
+    }
+    
+    void Walk()
+    {
+        if (isWalk == true)
+        {
+            animator.SetBool("isWalk", true);
+        }
+        else
+        {
+            animator.SetBool("isWalk", false);
         }
     }
 }
