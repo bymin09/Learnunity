@@ -9,7 +9,6 @@ public class MainMenu : MonoBehaviour
     public GameObject MenuBack;
     public GameObject Story;
     public GameObject Setting;
-
     public GameObject CheckMusic;
     public GameObject CheckSound;
 
