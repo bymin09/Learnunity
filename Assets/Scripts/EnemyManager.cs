@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
         response = new List<Transform>();
-        for(int i = 0;  i < this.transform.childCount; i++)
+        for (int i = 0; i < this.transform.childCount; i++)
         {
             if (this.transform.GetChild(i).name.Contains("Floor_response"))
             {

@@ -68,7 +68,7 @@ AnimatorStateMachine:
     m_Position: {x: 260, y: 110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4447141604498173773}
-    m_Position: {x: 260, y: 190, z: 0}
+    m_Position: {x: 280, y: -10, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -238,7 +238,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: m_melee_combat_attack_A
+  m_Name: Shoot
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -252,7 +252,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1efff89b452ceb346b3daed627319736, type: 3}
+  m_Motion: {fileID: 7400000, guid: 57d93683b7fd2bc48a79943fed30d037, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -5,9 +5,15 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    Animator animator;
     NavMeshAgent navMeshAgent;
     Transform player;
+    Animator animator;
+    public bool isAttackCheck = false;
+    int maxHp = 2;
+    int hp = 2;
+    bool isStop = false;
+    Renderer[] renderers;
+    Color originColor;
 
     bool isWalk = false;
 
@@ -17,6 +23,9 @@ public class Enemy : MonoBehaviour
         animator = this.GetComponent<Animator>();
         player = GameObject.Find("Player").transform;
         navMeshAgent.destination = player.position;
+
+        renderers = this.GetComponentsInChildren<Renderer>();
+        originColor = renderers[0].material.color;
     }
 
     
@@ -40,7 +49,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        this.transform.LookAt(player.position);
+        // this.transform.LookAt(player.position);
     }
 
     IEnumerator Attack()
@@ -66,6 +75,41 @@ public class Enemy : MonoBehaviour
         else
         {
             animator.SetBool("isWalk", false);
+        }
+    }
+
+    public void SetHp(int damage)
+    {
+        if (!isStop)
+        {
+            hp -= damage;
+            if(hp <= 0)
+            {
+                hp = 0;
+                animator.SetTrigger("Death");
+                isAttackCheck = false;
+                isStop = true;
+                navMeshAgent.isStopped = true;
+            }
+            else
+            {
+                StartCoroutine("HitColor");
+            }
+        }
+    }
+
+    IEnumerator HitColor()
+    {
+        foreach(Renderer render in renderers)
+        {
+            // render.material.color = render.material.color * hp / maxHp;
+            render.material.color = Color.red;
+        }
+        yield return new WaitForSeconds(0.5f);
+        foreach(Renderer render in renderers)
+        {
+            // render.material.color = render.material.color * hp / maxHp;
+            render.material.color = originColor;
         }
     }
 }
