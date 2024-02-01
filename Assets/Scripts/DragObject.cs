@@ -7,7 +7,6 @@ public class DragObject : MonoBehaviour,
     IPointerDownHandler, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     public Transform parentTr;
-    public Transform parentStart;
 
     private Vector2 beginPoint;
     private Vector2 moveBegin;
@@ -19,7 +18,6 @@ public class DragObject : MonoBehaviour,
         if(parentTr == null)
         {
             parentTr = this.transform.parent;
-            parentStart = this.transform.parent;
         }
 
         // canvas = GameObject.Find("Canvas");
@@ -42,13 +40,14 @@ public class DragObject : MonoBehaviour,
     public void OnDrag(PointerEventData eventData)
     {
         parentTr.position = beginPoint + (eventData.position - moveBegin);
+        // parentTr.transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(parentStart == beginParent)
+        if(transform.parent == beginParent)
         {
-            this.transform.SetParent(beginParent);
+            this.transform.SetParent(beginParent); //더블클릭은 고침(3번째에 문제가 생김)
         }
         if(canvasGroup != null)
         {
