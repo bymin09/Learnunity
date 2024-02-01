@@ -57,7 +57,7 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         animator.SetTrigger("isAttack");
         yield return new WaitForSeconds(0.5f);
-        if(Vector3.Distance(this.transform.position, player.position) < navMeshAgent.stoppingDistance + 0.1f){
+        if (Vector3.Distance(this.transform.position, player.position) < navMeshAgent.stoppingDistance + 0.1f){
             StartCoroutine("Attack");
         }
         else

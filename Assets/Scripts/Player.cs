@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public float BulletDelay = 1.0f;
     public float BulletTime = 0f;
     bool isBullet = false;
+    bool isLive = true;
 
     // Start is called before the first frame update
     void Start()
@@ -28,9 +29,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Walk();
-        Attack();
-        Rotation();
+        if(isLive)
+        {
+            Walk();
+            Attack();
+            Rotation();
+        }
     }
 
     void Walk()
@@ -122,17 +126,23 @@ public class Player : MonoBehaviour
 
     public void SetHp(int damage)
     {
-        if (Manager.Instance.isLive)
+        hp -= damage;
+        if (isLive)
         {
-            hp -= damage;
-            if(hp <= 0)
+            if (hp <= 0)
             {
+                isLive = false;
                 hp = 0;
                 animator.SetTrigger("Death");
-                Manager. Instance.isLive = false;
-                Invoke("Game Over", 1.0f);
+                // Manager.Instance.isLive = false;
+                // Invoke("Game Over", 1.0f);
             }
+
         }
+        //if (Manager.Instance.isLive)
+        //{
+            
+        //}
     }
 
     public void GameOver()

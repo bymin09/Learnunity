@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class DragObject : MonoBehaviour,
-    IPointerDownHandler, IDragHandler, IEndDragHandler, IBeginDragHandler
+    IPointerDownHandler, IDragHandler, IEndDragHandler, IBeginDragHandler, IPointerUpHandler
 {
     public Transform parentTr;
 
@@ -45,10 +45,6 @@ public class DragObject : MonoBehaviour,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(transform.parent == beginParent)
-        {
-            this.transform.SetParent(beginParent); //더블클릭은 고침(3번째에 문제가 생김)
-        }
         if(canvasGroup != null)
         {
             canvasGroup.blocksRaycasts = true;
@@ -68,4 +64,16 @@ public class DragObject : MonoBehaviour,
         }
     }
 
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (canvasGroup != null)
+        {
+            canvasGroup.blocksRaycasts = true;
+        }
+        if (this.GetComponent<RectTransform>().parent.name == "Inventory")
+        {
+            this.transform.SetParent(beginParent);
+            this.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        }
+    }
 }
